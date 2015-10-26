@@ -1,0 +1,21 @@
+{
+    "name": "root/geekhub_db",
+    "authors": [
+        {
+            "name": "Dmitry Chabanenko",
+            "email": "chdn6026@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "src/Controllers",
+            "Repositories\\": "src/Repositories",
+            "Views\\": "src/Views"
+        }
+    },
+
+    "minimum-stability": "dev",
+    "require": {
+        "twig/twig": "^2.0@dev"
+    }
+}
