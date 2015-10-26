@@ -15,7 +15,7 @@ class StudentsRepository
      */
     public function __construct($databasename, $user, $pass)
     {
-        $this->pdo = new \PDO('mysql:host=localhost;dbname='.$databasename, $user, $pass);
+        $this->pdo = new \PDO('mysql:host=localhost;dbname=' . $databasename . ';charset=UTF8', $user, $pass);
         if (!$this->pdo) {
             return false;
             //throw new Exception('Error connecting to the database');
@@ -25,9 +25,9 @@ class StudentsRepository
 
     public function getAllStudents($limit = 10, $offset = 0)
     {
-        $statement = $this->pdo->prepare('SELECT * FROM students');
-//        $statement->limit($limit); // @todo fix limit and offset if present
-//        $statement->offset($offset);
+        $statement = $this->pdo->prepare('SELECT * FROM students LIMIT :limit OFFSET :offset');
+        $statement->bindValue(':limit', (int) $limit, \PDO::PARAM_INT);
+        $statement->bindValue(':offset', (int) $offset, \PDO::PARAM_INT);
         $statement->execute();
         return $this->fetchStudentData($statement);
     }
@@ -37,6 +37,7 @@ class StudentsRepository
         $results = [];
         while ($result = $statement->fetch()) {
             $results[] = [
+                'id' => $result['id'],
                 'firstName' => $result['first_name'],
                 'lastName' => $result['last_name'],
                 'email' => $result['email'],
