@@ -14,9 +14,9 @@ class StudentsController
 
     private $twig;
 
-    public function __construct()
+    public function __construct($connector)
     {
-        $this->repository = new StudentsRepository('gh_database', 'ghuser', '111');
+        $this->repository = new StudentsRepository($connector);
         $this->loader = new \Twig_Loader_Filesystem('src/Views/templates/');
         $this->twig = new \Twig_Environment($this->loader, array(
             'cache' => false,

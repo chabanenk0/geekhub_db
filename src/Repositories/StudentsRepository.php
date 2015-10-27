@@ -4,28 +4,21 @@ namespace Repositories;
 
 class StudentsRepository
 {
-    private $pdo;
+    private $connector;
 
     /**
      * StudentsRepository constructor.
      * Initialize the database connection with sql server via given credentials
-     * @param $databasename
-     * @param $user
-     * @param $pass
+     * @param $connector
      */
-    public function __construct($databasename, $user, $pass)
+    public function __construct($connector)
     {
-        $this->pdo = new \PDO('mysql:host=localhost;dbname=' . $databasename . ';charset=UTF8', $user, $pass);
-        if (!$this->pdo) {
-            return false;
-            //throw new Exception('Error connecting to the database');
-        }
-
+        $this->connector = $connector;
     }
 
     public function getAllStudents($limit = 100, $offset = 0)
     {
-        $statement = $this->pdo->prepare('SELECT * FROM students LIMIT :limit OFFSET :offset');
+        $statement = $this->connector->getPdo()->prepare('SELECT * FROM students LIMIT :limit OFFSET :offset');
         $statement->bindValue(':limit', (int) $limit, \PDO::PARAM_INT);
         $statement->bindValue(':offset', (int) $offset, \PDO::PARAM_INT);
         $statement->execute();
@@ -49,7 +42,7 @@ class StudentsRepository
 
     public function addStudent(array $studentData)
     {
-        $statement = $this->pdo->prepare('INSERT INTO students (first_name, last_name, email) VALUES(:firstName, :lastName, :email)');
+        $statement = $this->connector->getPdo()->prepare('INSERT INTO students (first_name, last_name, email) VALUES(:firstName, :lastName, :email)');
         $statement->bindValue(':firstName', $studentData['first_name']);
         $statement->bindValue(':lastName', $studentData['last_name']);
         $statement->bindValue(':email', $studentData['email']);
@@ -59,7 +52,7 @@ class StudentsRepository
 
     public function getStudentById($id)
     {
-        $statement = $this->pdo->prepare('SELECT * FROM students WHERE id = :id LIMIT 1');
+        $statement = $this->connector->getPdo()->prepare('SELECT * FROM students WHERE id = :id LIMIT 1');
         $statement->bindValue(':id', (int) $id, \PDO::PARAM_INT);
         $statement->execute();
         return $this->fetchStudentData($statement);
@@ -68,7 +61,7 @@ class StudentsRepository
 
     public function updateStudent($id, array $studentData)
     {
-        $statement = $this->pdo->prepare("UPDATE students SET first_name = :firstName, last_name = :lastName, email = :email WHERE id = :id");
+        $statement = $this->connector->getPdo()->prepare("UPDATE students SET first_name = :firstName, last_name = :lastName, email = :email WHERE id = :id");
 
         $statement->bindValue(':firstName', $studentData['first_name'], \PDO::PARAM_STR);
         $statement->bindValue(':lastName', $studentData['last_name'], \PDO::PARAM_STR);
@@ -80,7 +73,7 @@ class StudentsRepository
 
     public function deleteStudent($id)
     {
-        $statement = $this->pdo->prepare("DELETE FROM students WHERE id = :id");
+        $statement = $this->connector->getPdo()->prepare("DELETE FROM students WHERE id = :id");
 
         $statement->bindValue(':id', $id, \PDO::PARAM_INT);
 

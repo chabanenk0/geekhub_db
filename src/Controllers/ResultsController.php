@@ -13,9 +13,9 @@ class ResultsController
 
     private $twig;
 
-    public function __construct()
+    public function __construct($connector)
     {
-        $this->repository = new ResultsRepository('gh_database', 'ghuser', '111');
+        $this->repository = new ResultsRepository($connector);
         $this->loader = new \Twig_Loader_Filesystem('src/Views/templates/');
         $this->twig = new \Twig_Environment($this->loader, array(
             'cache' => false,

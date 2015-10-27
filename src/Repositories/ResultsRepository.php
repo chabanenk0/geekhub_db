@@ -4,28 +4,21 @@ namespace Repositories;
 
 class ResultsRepository
 {
-    private $pdo;
+    private $connector;
 
     /**
      * StudentsRepository constructor.
      * Initialize the database connection with sql server via given credentials
-     * @param $databasename
-     * @param $user
-     * @param $pass
+     * @param $connector
      */
-    public function __construct($databasename, $user, $pass)
+    public function __construct($connector)
     {
-        $this->pdo = new \PDO('mysql:host=localhost;dbname=' . $databasename . ';charset=UTF8', $user, $pass);
-        if (!$this->pdo) {
-            return false;
-            //throw new Exception('Error connecting to the database');
-        }
-
+        $this->connector = $connector;
     }
 
     public function getAllResults($limit = 100, $offset = 0)
     {
-        $statement = $this->pdo->prepare('
+        $statement = $this->connector->getPdo()->prepare('
             SELECT * FROM results
             JOIN students ON results.student_id = students.id
             JOIN courses ON results.course_id = courses.id
