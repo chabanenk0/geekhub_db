@@ -29,4 +29,49 @@ class StudentsController
 
         return $this->twig->render('students.html.twig', ['students' =>$studentsData]);
     }
+
+    public function newAction()
+    {
+        if (isset($_POST['first_name'])) {
+            $this->repository->addStudent(
+                [
+                    'first_name' => $_POST['first_name'],
+                    'last_name'  => $_POST['last_name'],
+                    'email'      => $_POST['email'],
+                ]
+            );
+            return $this->indexAction();
+        }
+        return $this->twig->render('students_form.html.twig',
+            [
+                'first_name' => '',
+                'last_name' => '',
+                'email' => '',
+            ]
+        );
+    }
+
+    public function editAction()
+    {
+        if (isset($_POST['first_name'])) {
+            $this->repository->updateStudent(
+                (int) $_GET['id'],
+                [
+                    'first_name' => $_POST['first_name'],
+                    'last_name'  => $_POST['last_name'],
+                    'email'      => $_POST['email'],
+                ]
+            );
+            return $this->indexAction();
+        }
+        $studentData = $this->repository->getStudentById((int) $_GET['id'])[0];
+        return $this->twig->render('students_form.html.twig',
+            [
+                'first_name' => $studentData['firstName'],
+                'last_name' => $studentData['lastName'],
+                'email' => $studentData['email'],
+            ]
+        );
+    }
+
 }
