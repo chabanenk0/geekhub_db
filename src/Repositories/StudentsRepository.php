@@ -78,4 +78,13 @@ class StudentsRepository
         return $statement->execute();
     }
 
+    public function deleteStudent($id)
+    {
+        $statement = $this->pdo->prepare("DELETE FROM students WHERE id = :id");
+
+        $statement->bindValue(':id', $id, \PDO::PARAM_INT);
+
+        return $statement->execute();
+    }
+
 }
