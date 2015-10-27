@@ -27,7 +27,7 @@ class StudentsController
     {
         $studentsData = $this->repository->getAllStudents();
 
-        return $this->twig->render('students.html.twig', ['students' =>$studentsData]);
+        return $this->twig->render('students.html.twig', ['students' => $studentsData]);
     }
 
     public function newAction()

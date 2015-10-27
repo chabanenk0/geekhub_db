@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>Geekhub Student results</h1>
+<table class="table table-bordered">
+<tr>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Course</th>
+    <th>Mark</th>
+    <th>Time</th>
+</tr>
+{% for result in results %}
+    <tr>
+        <td>{{ result.firstName }}</td>
+        <td>{{ result.lastName }}</td>
+        <td>{{ result.course }}</td>
+        <td>{{ result.mark }}</td>
+        <td>{{ result.time }}</td>
+        <td><a href="index.php?controller=results&action=edit&id={{ results.id }}">edit</a>
+            <a href="index.php?controller=results&action=delete&id={{ results.id }}">delete</a></td>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>
