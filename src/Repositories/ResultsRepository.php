@@ -2,7 +2,7 @@
 
 namespace Repositories;
 
-class ResultsRepository
+class ResultsRepository implements RepositoryInterface
 {
     private $connector;
 
@@ -16,7 +16,7 @@ class ResultsRepository
         $this->connector = $connector;
     }
 
-    public function getAllResults($limit = 100, $offset = 0)
+    public function findAll($limit = 100, $offset = 0)
     {
         $statement = $this->connector->getPdo()->prepare('
             SELECT * FROM results
@@ -45,5 +45,55 @@ class ResultsRepository
         }
 
         return $results;
+    }
+
+    /**
+     * Insert new entity data to the DB
+     * @param array $entityData
+     * @return mixed
+     */
+    public function insert(array $entityData)
+    {
+        // TODO: Implement insert() method.
+    }
+
+    /**
+     * Update exist entity data in the DB
+     * @param array $entityData
+     * @return mixed
+     */
+    public function update(array $entityData)
+    {
+        // TODO: Implement update() method.
+    }
+
+    /**
+     * Delete entity data from the DB
+     * @param array $entityData
+     * @return mixed
+     */
+    public function remove(array $entityData)
+    {
+        // TODO: Implement remove() method.
+    }
+
+    /**
+     * Search entity data in the DB by Id
+     * @param $id
+     * @return mixed
+     */
+    public function find($id)
+    {
+        // TODO: Implement find() method.
+    }
+
+    /**
+     * Search all entity data in the DB like $criteria rules
+     * @param array $criteria
+     * @return mixed
+     */
+    public function findBy($criteria = [])
+    {
+        // TODO: Implement findBy() method.
     }
 }

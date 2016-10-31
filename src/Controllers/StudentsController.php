@@ -25,7 +25,7 @@ class StudentsController
 
     public function indexAction()
     {
-        $studentsData = $this->repository->getAllStudents();
+        $studentsData = $this->repository->findAll();
 
         return $this->twig->render('students.html.twig', ['students' => $studentsData]);
     }
@@ -33,7 +33,7 @@ class StudentsController
     public function newAction()
     {
         if (isset($_POST['first_name'])) {
-            $this->repository->addStudent(
+            $this->repository->insert(
                 [
                     'first_name' => $_POST['first_name'],
                     'last_name'  => $_POST['last_name'],
@@ -54,7 +54,7 @@ class StudentsController
     public function editAction()
     {
         if (isset($_POST['first_name'])) {
-            $this->repository->updateStudent(
+            $this->repository->update(
                 (int) $_GET['id'],
                 [
                     'first_name' => $_POST['first_name'],
@@ -77,7 +77,8 @@ class StudentsController
     public function deleteAction()
     {
         if (isset($_POST['id'])) {
-            $this->repository->deleteStudent((int)$_POST['id']);
+            $id = (int) $_POST['id'];
+            $this->repository->delete(['id' => $id]);
             return $this->indexAction();
         }
         return $this->twig->render('students_delete.html.twig', array('student_id' => $_GET['id']));

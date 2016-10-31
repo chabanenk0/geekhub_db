@@ -24,7 +24,7 @@ class ResultsController
 
     public function indexAction()
     {
-        $resultsData = $this->repository->getAllResults();
+        $resultsData = $this->repository->findAll();
 
         return $this->twig->render('results.html.twig', ['results' => $resultsData ]);
     }
