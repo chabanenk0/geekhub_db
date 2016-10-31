@@ -16,7 +16,7 @@ class StudentsRepository implements RepositoryInterface
         $this->connector = $connector;
     }
 
-    public function findAll($limit = 100, $offset = 0)
+    public function findAll($limit = 1000, $offset = 0)
     {
         $statement = $this->connector->getPdo()->prepare('SELECT * FROM students LIMIT :limit OFFSET :offset');
         $statement->bindValue(':limit', (int) $limit, \PDO::PARAM_INT);
@@ -55,7 +55,9 @@ class StudentsRepository implements RepositoryInterface
         $statement = $this->connector->getPdo()->prepare('SELECT * FROM students WHERE id = :id LIMIT 1');
         $statement->bindValue(':id', (int) $id, \PDO::PARAM_INT);
         $statement->execute();
-        return $this->fetchStudentData($statement);
+        $studentsData = $this->fetchStudentData($statement);
+
+        return $studentsData[0];
 
     }
 

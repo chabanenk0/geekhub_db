@@ -55,16 +55,16 @@ class StudentsController
     {
         if (isset($_POST['first_name'])) {
             $this->repository->update(
-                (int) $_GET['id'],
                 [
                     'first_name' => $_POST['first_name'],
                     'last_name'  => $_POST['last_name'],
                     'email'      => $_POST['email'],
+                    'id'         => (int) $_GET['id'],
                 ]
             );
             return $this->indexAction();
         }
-        $studentData = $this->repository->getStudentById((int) $_GET['id'])[0];
+        $studentData = $this->repository->find((int) $_GET['id']);
         return $this->twig->render('students_form.html.twig',
             [
                 'first_name' => $studentData['firstName'],
