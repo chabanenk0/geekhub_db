@@ -16,10 +16,10 @@ class ResultsRepository implements RepositoryInterface
         $this->connector = $connector;
     }
 
-    public function findAll($limit = 100, $offset = 0)
+    public function findAll($limit = 1000, $offset = 0)
     {
         $statement = $this->connector->getPdo()->prepare('
-            SELECT * FROM results
+            SELECT students.id as student_id, first_name, last_name, email, mark, time_seconds, courses.name as course, courses.season as season FROM results
             JOIN students ON results.student_id = students.id
             JOIN courses ON results.course_id = courses.id
             LIMIT :limit OFFSET :offset
@@ -35,10 +35,12 @@ class ResultsRepository implements RepositoryInterface
         $results = [];
         while ($result = $statement->fetch()) {
             $results[] = [
-                'id' => $result['id'],
+                'id' => $result['student_id'],
                 'firstName' => $result['first_name'],
                 'lastName' => $result['last_name'],
-                'course' => $result['name'],
+                'email' => $result['email'],
+                'course' => $result['course'],
+                'season' => $result['season'],
                 'mark' => $result['mark'],
                 'time' => $result['time_seconds'],
             ];
