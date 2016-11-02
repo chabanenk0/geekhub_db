@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Repositories\StudentsMongoRepository;
 use Repositories\StudentsRepository;
 use Views\Renderer;
 //require_once '/var/www/geekhub_db/src/Repositories/StudentsRepository.php';
@@ -14,9 +15,14 @@ class StudentsController
 
     private $twig;
 
+    /**
+     * StudentsController constructor.
+     * @param $connector
+     */
     public function __construct($connector)
     {
-        $this->repository = new StudentsRepository($connector);
+//        $this->repository = new StudentsRepository($connector);
+        $this->repository = new StudentsMongoRepository();
         $this->loader = new \Twig_Loader_Filesystem('src/Views/templates/');
         $this->twig = new \Twig_Environment($this->loader, array(
             'cache' => false,
@@ -78,7 +84,7 @@ class StudentsController
     {
         if (isset($_POST['id'])) {
             $id = (int) $_POST['id'];
-            $this->repository->delete(['id' => $id]);
+            $this->repository->remove(['id' => $id]);
             return $this->indexAction();
         }
         return $this->twig->render('students_delete.html.twig', array('student_id' => $_GET['id']));

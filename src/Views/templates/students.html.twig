@@ -19,6 +19,7 @@
             <th>First name</th>
             <th>Last name</th>
             <th>Email name</th>
+            <th>Courses</th>
             <th>Actions</th>
         </tr>
         {% for student in students %}
@@ -27,6 +28,11 @@
                 <td>{{ student.firstName }}</td>
                 <td>{{ student.lastName }}</td>
                 <td>{{ student.email }}</td>
+                <td>
+                    {% for course in student.courses %}
+                        {{ course.name }} (season {{ course.season }}, {{ course.mark }}%)<br>
+                    {% endfor %}
+                </td>
                 <td><a href="index.php?controller=students&action=edit&id={{ student.id }}">edit</a> <a href="index.php?controller=students&action=delete&id={{ student.id }}">delete</a></td>
             </tr>
         {% endfor %}
