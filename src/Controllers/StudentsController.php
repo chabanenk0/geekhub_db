@@ -78,7 +78,7 @@ class StudentsController
     {
         if (isset($_POST['id'])) {
             $id = (int) $_POST['id'];
-            $this->repository->delete(['id' => $id]);
+            $this->repository->remove(['id' => $id]);
             return $this->indexAction();
         }
         return $this->twig->render('students_delete.html.twig', array('student_id' => $_GET['id']));
